@@ -14,22 +14,21 @@ import com.oreilly.security.domain.repositories.AutoUserRepository;
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 	@Autowired
 	private AutoUserRepository repo;
-
+	
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-		
-		UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
-		AutoUser user = repo.findByUsername(token.getName());
-			if(!user.getPassword().equalsIgnoreCase(token.getCredentials().toString())) {
-				throw new BadCredentialsException("The credentials is invalid");
-			}
+	UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
+	AutoUser user = repo.findByUsername(token.getName());
+	 if(!user.getPassword().equalsIgnoreCase(token.getCredentials().toString())) {
+		 throw new BadCredentialsException("The credentials is invalid");
+	 }
 		return new UsernamePasswordAuthenticationToken(user,user.getPassword(),user.getAuthorities());
 	}
 
 	@Override
 	public boolean supports(Class<?> authentication) {
 		// TODO Auto-generated method stub
-		return UsernamePasswordAuthenticationToken.class.equals(authentication);
+		return false;
 	}
-
+	
 }
